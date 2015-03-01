@@ -5,6 +5,8 @@ public class LibraryMenu{
 	
 	private boolean exited = false;	
 	BibliotecaApp app;
+	
+	public static String MESSAGE_ON_EXIT = "Get lost loser. You think I'm gonna come back to you after you broke up with me?\n";
 
 	public LibraryMenu(BibliotecaApp app){
 		this.app = app;		
@@ -12,7 +14,7 @@ public class LibraryMenu{
 
 	public String processCommand(String command){
 		if (exited)
-			return "Get lost loser. You think I'm gonna come back to you after you broke up with me?";
+			return MESSAGE_ON_EXIT;
 	
 		if (command.equalsIgnoreCase("Quit")){
 			exited = true;
@@ -22,39 +24,40 @@ public class LibraryMenu{
 			return app.getLibrary().listBooks() + getMainMenu(false);
 		}
 		else if (command.startsWith("Return")){
-			bookTitle = extractBookTitleFromCommand(command, "return");
-			Book bookToReturn = app.getLibrary(commandParts).getBookByTitle(bookTitle);
-			return bookToReturn.returnBook() + getMainMenu(false);
+			String bookTitle = extractBookTitleFromCommand(command, "return");
+            String returnOutcome = app.getLibrary().returnBook(bookTitle);
+            return returnOutcome + getMainMenu(false);
+
 		}
 		else if (command.startsWith("Borrow")){
-			bookTitle = extractBookTitleFromCommand(command, "borrow");
-			Book bookToBorrow = app.getLibrary(commandParts).getBookByTitle(bookTitle);
-			return bookToReturn.borrowBook() + getMainMenu(false);
+			String bookTitle = extractBookTitleFromCommand(command, "borrow");
+			String borrowOutcome = app.getLibrary().borrowBook(bookTitle);
+			return borrowOutcome + getMainMenu(false);
 		}
 		else if (command.equalsIgnoreCase("Menu")){
 			return getMainMenu(false);
 		}
 		else{
-			return "Whatchoo talkin bout fool. I only do this stuff.\n" + getMainMenu(false);
+			return "Whatchoo talkin bout fool?" + command + " isn't a real command. I only do this stuff.\n" + getMainMenu(false);
 		}
 	}
 
 	public String extractBookTitleFromCommand(String command, String action){
-		commandParts = command.split(" ");
-		if (commandParts.size() < 2)
+		String[] commandParts = command.split(" ");
+		if (commandParts.length < 2)
 			return "Hey! I told you I'm not a mind reader. Tell me what book you want to " + action;
 		
-		bookTitle = commandParts[1];
+		String bookTitle = commandParts[1];
 		return bookTitle;
 	}
 
 	public String getMainMenu(boolean firstTime){
 		String intro = firstTime ? getFirstTimeMessage() : getRepeatMessage();
-		String mainMenu = 
+		String mainMenu = "===========================\n" +
 			"List: List the books available" +
 			"\nReturn <book title>: Return a book (You've gotta tell me the title. I'm good but I'm not that good.)\n" +
 			"\nBorrow <book title>: Borrow a book (You've gotta tell me the title. I'm good but I'm not that good.)\n" +
-			"\nQuit: Have I impressed you enough already?\n";
+			"\nQuit: Have I impressed you enough already?\n===========================\n";
 
 		return intro + mainMenu;
 	}

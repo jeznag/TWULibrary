@@ -15,19 +15,23 @@ public class Book{
    
    public String getSummary(){
    	if (!checkedOut)
-   		return "'" + title + "' by " + author + " published in" + yearPublished + "\n";
+   		return "'" + title + "' by " + author + " published in " + yearPublished + "\n";
    	return "";
    }
+
+    public String getTitle(){
+        return title;
+    }
    
    public String borrowBook(){
    	if (!checkedOut){
    		checkedOut = true;
    		return "The book's yours!\n";
    	}
-   	return "That book ain't there sucker";
+   	return "That book ain't there sucker\n";
    }
    
-   public void returnBook(){
+   public String returnBook(){
    	if (checkedOut){
    		checkedOut = false;
    		return "Thank you kindly most respectable of all citizens. I worship the ground you stand on.\n";
