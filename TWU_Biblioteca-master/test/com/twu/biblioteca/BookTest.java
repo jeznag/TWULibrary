@@ -8,23 +8,25 @@ import static org.junit.Assert.assertEquals;
 
 public class BookTest {
 
-    private TestHelper testHelper;
+    //private TestHelper testHelper;
 
-    @Before
+    /*@Before
     public void beforeTest() {
         testHelper = new TestHelper();
         testHelper.setUpStreams();
     }
 
-    @After
+
+    @AfterR
     public void afterTest() {
         testHelper.cleanUpStreams();
-    }
+    }*/
 
     @Test
     public void bookSummaryCorrect() {
         Book testBook = new Book("Matthew Reilly", 1984, "Scarecrow");
         assertEquals(testBook.getSummary(), "'Scarecrow' by Matthew Reilly published in 1984\n");
     }
+
 
 }

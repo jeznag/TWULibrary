@@ -17,10 +17,7 @@ public class BibliotecaApp {
     }
 
     public BibliotecaApp(){
-        //super(getSampleLibrary());
-        this.library = getSampleLibrary();
-        menu = new LibraryMenu(this);
-        runApp(System.in);
+        this(getSampleLibrary(), System.in);
     }
 
     public static void main(String[] args) {
