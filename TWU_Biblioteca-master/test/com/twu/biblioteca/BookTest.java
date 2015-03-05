@@ -1,26 +1,12 @@
 package com.twu.biblioteca;
 
 
-import org.junit.After;
-import org.junit.Before;
+import com.twu.biblioteca.model.Book;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class BookTest {
 
-    //private TestHelper testHelper;
-
-    /*@Before
-    public void beforeTest() {
-        testHelper = new TestHelper();
-        testHelper.setUpStreams();
-    }
-
-
-    @AfterR
-    public void afterTest() {
-        testHelper.cleanUpStreams();
-    }*/
 
     @Test
     public void bookSummaryCorrect() {

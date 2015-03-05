@@ -1,4 +1,6 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.model;
+
+import java.util.ArrayList;
 
 public class Book{
 
@@ -38,5 +40,5 @@ public class Book{
     }
     return "Who you trying to fool? You never borrowed that book and now you're saying you're returning it? What's wrong with you?\n";
    }
-   
+
 }
