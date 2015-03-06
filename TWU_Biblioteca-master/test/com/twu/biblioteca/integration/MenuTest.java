@@ -1,6 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.integration;
 
 
+import com.twu.biblioteca.TestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,14 +25,14 @@ public class MenuTest {
     }
 
     @Test
-    public void checkThatFakeConsoleWorks(){
+    public void check_that_fake_console_works(){
         testHelper.fakeKeyboardInput("Quit");
         testHelper.startAppWithSampleParameters();
         assertNotEquals(testHelper.getApp().getConsoleInterface(), null);
     }
 
     @Test
-    public void checkWelcomeMessage() {
+    public void check_welcome_message() {
     	//this should output the welcome message to system.out
         testHelper.exit();
         testHelper.startAppWithSampleParameters();
@@ -40,7 +41,7 @@ public class MenuTest {
     }
     
     @Test
-    public void checkMainMenu() {
+    public void check_main_menu() {
     	//this should output the welcome message + main menu to system.out
         testHelper.fakeKeyboardInput("Menu)");
         testHelper.fakeKeyboardInput("Menu)");
@@ -49,9 +50,9 @@ public class MenuTest {
     	int indexOfMainMenu = testHelper.getIndexInLastPartOfOutput("You again? Aren't you bored yet? Very well, how would you like to amuse yourself next?\n===========================\nList: List the books available");
         assertNotEquals(indexOfMainMenu, -1);
     }
-    
+
     @Test
-    public void checkInvalidOption() {
+    public void check_invalid_option() {
     	//this should output the welcome message + main menu to system.out
         testHelper.fakeKeyboardInput("you suck librarian!");
         testHelper.exit();
@@ -62,7 +63,7 @@ public class MenuTest {
     
     
     @Test
-    public void checkThatQuitWorks() {
+    public void check_that_quit_works() {
     	//this should output the welcome message + main menu to system.out
         testHelper.fakeKeyboardInput("Quit");
         testHelper.fakeKeyboardInput("I changed my mind. Please let me come back!");

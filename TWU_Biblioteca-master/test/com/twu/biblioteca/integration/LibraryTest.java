@@ -1,6 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.integration;
 
 
+import com.twu.biblioteca.TestHelper;
 import com.twu.biblioteca.controller.BibliotecaAppController;
 import com.twu.biblioteca.model.LibraryModel;
 import com.twu.biblioteca.view.LibraryView;
@@ -15,23 +16,16 @@ import static org.junit.Assert.assertNotEquals;
 **/
 public class LibraryTest {
 
-    private TestHelper testHelper;
-    
+    protected TestHelper testHelper;
+
     @Before
     public void beforeTest() {
-	    testHelper = new TestHelper();
+        testHelper = new TestHelper();
     }
-	
+
     @After
     public void afterTest() {
         testHelper.exit();
-    }
-
-    @Test
-    public void librarySummaryCorrect() {
-        LibraryModel testLibrary = BibliotecaAppController.getSampleLibrary();
-        LibraryView libraryView = new LibraryView(testLibrary);
-        assertEquals(libraryView.listBooks(), "'Shantaram' by Gregory David Roberts published in 2003\n'The Art of War' by Sun Tzu published in 1910\n");
     }
 
     @Test
@@ -44,7 +38,7 @@ public class LibraryTest {
     }
 
     @Test
-    public void checkThatICanCheckout() {
+    public void check_that_I_can_checkout() {
         testHelper.fakeKeyboardInput("Borrow Shantaram");
         testHelper.exit();
         testHelper.startAppWithSampleParameters();
@@ -53,7 +47,7 @@ public class LibraryTest {
     }
 
     @Test
-    public void checkThatICannotCheckoutTwice() {
+    public void check_that_I_cannot_checkout_twice() {
         testHelper.fakeKeyboardInput("Borrow Shantaram");
         testHelper.fakeKeyboardInput("Borrow Shantaram");
         testHelper.fakeKeyboardInput("Quit");
@@ -65,7 +59,7 @@ public class LibraryTest {
     }
 
     @Test
-    public void checkThatICanReturn() {
+    public void check_that_I_can_return() {
         testHelper.fakeKeyboardInput("Borrow Shantaram");
         testHelper.fakeKeyboardInput("Return Shantaram");
         testHelper.fakeKeyboardInput("Quit");
@@ -78,7 +72,7 @@ public class LibraryTest {
     }
     
     @Test
-    public void checkThatICannotReturnABookThatIsNotBorrowed() {
+    public void check_that_I_cannot_return_a_book_that_has_been_borrowed() {
     	//this should output the welcome message + main menu to system.out
         testHelper.fakeKeyboardInput("Return Shantaram");
         testHelper.fakeKeyboardInput("Quit");

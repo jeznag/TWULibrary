@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.integration;
 
 
 import com.twu.biblioteca.controller.console.FakeConsole;
@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class FakeConsoleTest {
 
     @Test
-    public void checkFakeConsoleInputWorks(){
+    public void check_that_fake_console_input_works(){
         FakeConsole fakeConsole = new FakeConsole();
         fakeConsole.injectLineToInput("Test");
         fakeConsole.injectLineToInput("Test2");
