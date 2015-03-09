@@ -18,6 +18,7 @@ public class MenuTest {
     @Before
     public void beforeTest() {
         testHelper = new TestHelper();
+        testHelper.loginSuccessfully();
     }
 	
     @After
@@ -37,9 +38,19 @@ public class MenuTest {
         testHelper.exit();
         testHelper.startAppWithSampleParameters();
     	int indexOfWelcome = testHelper.getIndexInFirstPartOfOutput("Welcome! I am the most efficient librarian in the world.");
-        assertEquals(indexOfWelcome, 0);
+        assertNotEquals(indexOfWelcome, -1);
     }
-    
+
+    @Test
+    public void check_menu_explains_how_to_borrow_books_and_films() {
+        //this should output the welcome message to system.out
+
+        testHelper.exit();
+        testHelper.startAppWithSampleParameters();
+        int indexOfExplanation = testHelper.getIndexInOutput("Return <item category> <book title>: Return a book (You've gotta tell me the title and the item category. I'm good but I'm not that good.). Example: Borrow Book Shantaram");
+        assertNotEquals(indexOfExplanation, -1);
+    }
+
     @Test
     public void check_main_menu() {
     	//this should output the welcome message + main menu to system.out

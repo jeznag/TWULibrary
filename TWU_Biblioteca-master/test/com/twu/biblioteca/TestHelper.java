@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.controller.BibliotecaAppController;
 import com.twu.biblioteca.controller.console.FakeConsole;
+import com.twu.biblioteca.model.factory.LibraryFactory;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,36 +20,36 @@ public class TestHelper {
 
     private BibliotecaAppController app;
 
-    public void startAppWithSampleParameters(){
-        app = new BibliotecaAppController(BibliotecaAppController.getSampleLibrary(), fakeConsole);
+    public void startAppWithSampleParameters() {
+        app = new BibliotecaAppController(LibraryFactory.getSampleBookAndMovieLibrary(), fakeConsole);
     }
 
-    public void fakeKeyboardInput(String input){
+    public void fakeKeyboardInput(String input) {
         fakeConsole.injectLineToInput(input);
     }
 
     /**
-    *Checks if the specified string was just sent to system.out
+     * Checks if the specified string was just sent to system.out
      */
     public int getIndexInLastPartOfOutput(String expectedOutput) {
         return getOutputBeforeQuit().indexOf(expectedOutput);
     }
 
     /**
-     *Checks if the specified string was in the initial part of the output
+     * Checks if the specified string was in the initial part of the output
      */
     public int getIndexInFirstPartOfOutput(String expectedOutput) {
         return getOutputAtStart().indexOf(expectedOutput);
     }
 
     /**
-     *Checks if the specified string was sent to system.out at some point
+     * Checks if the specified string was sent to system.out at some point
      */
     public int getIndexInOutput(String expectedOutput) {
         return getOutput().indexOf(expectedOutput);
     }
 
-    public void exit(){
+    public void exit() {
         //say quit twice because that pesky Librarian wants to see that you really want to quit
         fakeKeyboardInput("Quit");
         fakeKeyboardInput("Quit");
@@ -56,9 +57,10 @@ public class TestHelper {
 
     /**
      * Gets the output from the FakeConsole mock
-     * @return  String with all the output that was sent to the FakeConsole mock object
+     *
+     * @return String with all the output that was sent to the FakeConsole mock object
      */
-    public String getOutput(){
+    public String getOutput() {
         return fakeConsole.getOutput();
     }
 
@@ -70,9 +72,10 @@ public class TestHelper {
      * try to return the book for some reason
      * and an unsuccessful borrow happens when we actually try to borrow
      * In this case, the test would pass with a standard check on the getOutput() method
-     * @return  A string representing the final output after the last non-quit command and before the quit command
+     *
+     * @return A string representing the final output after the last non-quit command and before the quit command
      */
-    public String getOutputBeforeQuit(){
+    public String getOutputBeforeQuit() {
         String bitUntilQuit = getOutput().substring(0, getOutput().indexOf("Kthanxbye"));
         String outputBetweenLastCommandAndBitBeforeQuit = bitUntilQuit.substring(bitUntilQuit.indexOf("already?\n" +
                 "==========================="), bitUntilQuit.length());
@@ -81,11 +84,19 @@ public class TestHelper {
 
     /**
      * In this case, we only want to see the very start of the string
-     * @see  TestHelper#getOutputBeforeQuit
-     * @return  A string representing the final output after the last non-quit command and before the quit command
+     *
+     * @return A string representing the final output after the last non-quit command and before the quit command
+     * @see TestHelper#getOutputBeforeQuit
      */
-    public String getOutputAtStart(){
+    public String getOutputAtStart() {
         String bitUntilFirstMenuList = getOutput().substring(1, getOutput().indexOf("====="));
         return bitUntilFirstMenuList;
+    }
+
+    /**
+     * Login using valid credentials
+     */
+    public void loginSuccessfully() {
+        fakeKeyboardInput("Login 123-4567 reallySecurePassword");
     }
 }

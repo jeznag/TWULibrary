@@ -1,6 +1,6 @@
 package com.twu.biblioteca.view;
 
-import com.twu.biblioteca.model.Book;
+import com.twu.biblioteca.model.LibraryItem;
 import com.twu.biblioteca.model.LibraryModel;
 
 /**
@@ -15,10 +15,19 @@ public class LibraryView {
 
     public String listBooks(){
         StringBuilder listOfBooks = new StringBuilder();
-        for (Book book : libraryModel.getListBooks()){
-            listOfBooks.append(book.getSummary());
+        for (LibraryItem libraryItem : libraryModel.getListBooks()){
+            listOfBooks.append(libraryItem.getSummary());
         }
         return listOfBooks.toString();
     }
 
+    public String listFilms(){
+        StringBuilder listOfBooks = new StringBuilder();
+        for (LibraryItem libraryItem : libraryModel.getListFilms()){
+            listOfBooks.append(libraryItem.getSummary());
+        }
+        return listOfBooks.toString();
+    }
+
+    public static final String MESSAGE_WHEN_ITEM_IN_LIBRARY = "It's mine! If you want it, you've gotta be nice to me.";
 }

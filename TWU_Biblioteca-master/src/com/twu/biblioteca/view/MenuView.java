@@ -26,8 +26,9 @@ public class MenuView {
         String intro = firstTime ? getFirstTimeMessage() : getRepeatMessage();
         String mainMenu = "===========================\n" +
                 "List: List the books available" +
-                "\nReturn <book title>: Return a book (You've gotta tell me the title. I'm good but I'm not that good.)\n" +
-                "\nBorrow <book title>: Borrow a book (You've gotta tell me the title. I'm good but I'm not that good.)\n" +
+                "\nReturn <item category> <book title>: Return a book (You've gotta tell me the title and the item category. I'm good but I'm not that good.). Example: Borrow Book Shantaram\n" +
+                "\nBorrow <item category> <book title>: Borrow a book (You've gotta tell me the title. I'm good but I'm not that good.) Example: Return Book Shantaram\n" +
+                "\nMyProfile : See all the goss I've got on you" +
                 "\nQuit: Have I impressed you enough already?\n===========================\n";
 
         return (intro + mainMenu);

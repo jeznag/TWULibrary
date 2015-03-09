@@ -1,8 +1,7 @@
 package com.twu.biblioteca.controller;
 
-import com.twu.biblioteca.model.Book;
-import com.twu.biblioteca.model.LibraryModel;
-import com.twu.biblioteca.model.MenuModel;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+import com.twu.biblioteca.model.*;
 import com.twu.biblioteca.view.MenuView;
 import com.twu.biblioteca.view.LibraryView;
 
@@ -25,7 +24,7 @@ public class MenuController {
         this.app = app;
     }
 
-    public String processCommand(String command) {
+    public String processCommand(String command, UserModel loggedInUser) throws InvalidArgumentException{
         if (menuModel.isExited()) {
             return menuView.getMessageAfterExit();
         }
@@ -37,17 +36,34 @@ public class MenuController {
         }
         else if (command.contains("Quit")) {
             return handleExit();
-        } else if (command.equalsIgnoreCase("List")) {
+        } else if (command.equalsIgnoreCase("List Books")) {
             return handleListBooks();
-        } else if (command.startsWith("Return")) {
+        }
+        else if (command.equalsIgnoreCase("List Films")) {
+            return handleListFilms();
+        }
+        else if (command.startsWith("Return")) {
             return handleReturn(command);
         } else if (command.startsWith("Borrow")) {
-            return handleBorrow(command);
-        } else if (command.equalsIgnoreCase("Menu")) {
+            return handleBorrow(command, loggedInUser);
+        } else if (command.startsWith("MyProfile")) {
+            return handleMyProfile(loggedInUser);
+        } else if (command.startsWith("Whodunnit")) {
+            return handleWhoDunnit(command);
+        }
+        else if (command.equalsIgnoreCase("Menu")) {
             return handleMainMenu();
         } else {
             return handleInvalidCommand(command);
         }
+    }
+
+    private String handleWhoDunnit(String command) throws InvalidArgumentException{
+        menuModel.resetInvalidCommands();
+        String borrowItemType = extractItemTypeFromCommand(command, "whodunnit");
+        String itemTitle = extractItemTitleFromCommand(command, "whodunnit");
+        String borrowOutcome = app.getLibrary().whoBorrowedLibraryItem(itemTitle, libraryModel.getAppropriateListOfItems(borrowItemType));
+        return borrowOutcome;
     }
 
     private String handleTooManyInvalidCommands() {
@@ -65,15 +81,21 @@ public class MenuController {
         return libraryView.listBooks();
     }
 
+    private String handleListFilms() {
+        menuModel.resetInvalidCommands();
+        return libraryView.listFilms();
+    }
+
     private String handleInvalidCommand(String command){
         menuModel.incrementInvalidCommands();
         return menuView.handleInvalidCommand(command);
     }
 
-    private String handleBorrow(String command) {
+    private String handleBorrow(String command, UserModel loggedInUser) throws InvalidArgumentException{
         menuModel.resetInvalidCommands();
-        String bookTitle = extractBookTitleFromCommand(command, "borrow");
-        String borrowOutcome = app.getLibrary().borrowBook(bookTitle);
+        String borrowItemType = extractItemTypeFromCommand(command, "borrow");
+        String itemTitle = extractItemTitleFromCommand(command, "borrow");
+        String borrowOutcome = app.getLibrary().borrowLibraryItem(itemTitle, libraryModel.getAppropriateListOfItems(borrowItemType), loggedInUser);
         return borrowOutcome;
     }
 
@@ -83,23 +105,38 @@ public class MenuController {
         return menuView.getMessageOnExit();
     }
 
-    private String handleReturn(String command){
+    private String handleReturn(String command) throws InvalidArgumentException{
         menuModel.resetInvalidCommands();
-        String bookTitle = extractBookTitleFromCommand(command, "return");
-        String returnOutcome = app.getLibrary().returnBook(bookTitle);
-        return returnOutcome;
+        String returnItemType = extractItemTypeFromCommand(command, "return");
+        String itemTitle = extractItemTitleFromCommand(command, "return");
+        String borrowOutcome = app.getLibrary().returnLibraryItem(itemTitle, libraryModel.getAppropriateListOfItems(returnItemType));
+        return borrowOutcome;
     }
 
-    public String extractBookTitleFromCommand(String command, String action){
+    private String handleMyProfile(UserModel loggedInUser){
+        return loggedInUser.getSummary();
+    }
+
+    public String extractItemTitleFromCommand(String command, String action){
+        String[] commandParts = command.split(" ", 3);
+        if (commandParts.length < 2)
+            return menuView.getMessageIfTitleNotSupplied(action);
+        String bookTitle = commandParts[2];
+        return bookTitle;
+    }
+
+    public String extractItemTypeFromCommand(String command, String action) throws InvalidArgumentException{
         String[] commandParts = command.split(" ");
         if (commandParts.length < 2)
             return menuView.getMessageIfTitleNotSupplied(action);
-        String bookTitle = commandParts[1];
-        return bookTitle;
+        String itemType = commandParts[1];
+        return menuModel.isValidItemType(itemType);
     }
 
     public void showMainMenu(boolean firstTime){
         app.getConsoleInterface().writeToOutput(menuView.getMainMenu(true));
     }
+
+
 
 }

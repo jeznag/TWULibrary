@@ -1,5 +1,10 @@
 package com.twu.biblioteca.model;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by jeremynagel on 5/03/15.
  */
@@ -29,4 +34,13 @@ public class MenuModel {
         this.exited = exited;
     }
 
+    public String isValidItemType(String borrowType) throws InvalidArgumentException{
+        String lowerCaseType = borrowType.toLowerCase();
+        if (VALID_BORROW_TYPES.contains(lowerCaseType))
+            return borrowType;
+        throw new InvalidArgumentException(new String[] {"You can't borrow a " + lowerCaseType});
+
+    }
+
+    private final List<String> VALID_BORROW_TYPES = Arrays.asList("book", "film");
 }
